@@ -1,12 +1,13 @@
-import { Row, Col } from "react-bootstrap";
-
 const Film = (props) => {
   const { loc } = props;
 
   return (
-    <Row>
-      <Col>{loc.title}</Col>
-    </Row>
+    <tr>
+      <td>{loc.title}</td>
+      <td>{loc.locations}</td>
+      <td>{loc.director}</td>
+      <td>{loc.release_year}</td>
+    </tr>
   );
 };
 

@@ -17,11 +17,11 @@ function App() {
           </Wrapper>
         </Col>
       </Row>
-      <Row className="justify-content-center">
+      <Row>
         <Searchbar />
       </Row>
-      <Row className="justify-content-center">
-        <Col xxl={6} xl={6} lg={6} md={6} sm={6} xs={6}>
+      <Row className="justify-space-evenly">
+        <Col xxl={8} xl={8} lg={8} md={8} sm={8} xs={8}>
           <Locations />
         </Col>
         <Itinerary />

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
 
 import Film from "./Film";
 
@@ -19,12 +18,24 @@ const Locations = () => {
         console.log(error);
       });
   }, []);
+
+  const tableHeaders = ["Title", "Location", "Director", "Released"];
+
   return (
-    <Container>
-      {locations.map((loc, index) => {
-        return <Film key={index} loc={loc} />;
-      })}
-    </Container>
+    <table className="table table-light table-hover table-striped">
+      <thead>
+        <tr>
+          {tableHeaders.map((header, index) => (
+            <th key={index}>{header}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {locations.map((loc, index) => {
+          return <Film key={index} loc={loc} />;
+        })}
+      </tbody>
+    </table>
   );
 };
 
