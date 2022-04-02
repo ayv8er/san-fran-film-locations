@@ -21,7 +21,9 @@ function App() {
         <Searchbar />
       </Row>
       <Row className="justify-content-center">
-        <Locations />
+        <Col xxl={6} xl={6} lg={6} md={6} sm={6} xs={6}>
+          <Locations />
+        </Col>
         <Itinerary />
       </Row>
     </Container>
