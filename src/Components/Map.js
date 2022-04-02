@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-const Map = ({ center, zoom }) => {
+const Map = () => {
   const ref = useRef();
   const style = { height: "50vh" };
 
