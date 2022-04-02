@@ -12,6 +12,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 function App() {
   const [locations, setLocations] = useState([]);
+  const [itinerary, setItinerary] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
 
   useEffect(() => {
@@ -33,11 +34,13 @@ function App() {
       </Wrapper>
       <Searchbar searchTitle={searchTitle} setSearchTitle={setSearchTitle} />
 
-      <Row className="justify-space-evenly">
+      <Row>
         <Col xxl={8} xl={8} lg={8} md={8} sm={8} xs={8}>
           <Locations searchTitle={searchTitle} locations={locations} />
         </Col>
-        <Itinerary />
+        <Col xxl={4} xl={4} lg={4} md={4} sm={4} xs={4}>
+          <Itinerary itinerary={itinerary} />
+        </Col>
       </Row>
     </Container>
   );

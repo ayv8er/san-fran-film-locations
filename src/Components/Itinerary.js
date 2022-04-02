@@ -1,10 +1,24 @@
-import { Col } from "react-bootstrap";
+const Itinerary = (props) => {
+  const { itinerary } = props;
+  console.log(itinerary);
 
-const Itinerary = () => {
   return (
-    <Col xxl={4} xl={4} lg={4} md={4} sm={4} xs={4}>
-      <p>itinerary</p>
-    </Col>
+    <table
+      className="table table-light table-hover table-striped"
+      style={{ width: "100" }}
+    >
+      <thead>
+        <tr>
+          <th style={{ width: "50%" }}>Title</th>
+          <th style={{ width: "50%" }}>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        {itinerary.length === 0 ? (
+          <p>Drag a location you'd like to visit!</p>
+        ) : null}
+      </tbody>
+    </table>
   );
 };
 
