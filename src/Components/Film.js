@@ -1,6 +1,5 @@
 const Film = (props) => {
   const { loc } = props;
-
   return (
     <tr>
       <td style={{ height: "60px" }}>{loc.title}</td>

@@ -1,21 +1,18 @@
-import { useState, useEffect } from "react";
 import Film from "./Film";
-import axios from "axios";
 
-const Locations = () => {
-  const [locations, setLocations] = useState([]);
+const Locations = (props) => {
+  const { searchTitle, locations } = props;
 
-  useEffect(() => {
-    axios
-      .get("https://data.sfgov.org/resource/yitu-d5am.json")
-      .then((res) => {
-        setLocations(res.data);
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  const filteredLocations = () => {
+    let title = searchTitle.trim().toLowerCase();
+    if (title === "") {
+      return locations;
+    }
+    let newLocations = locations.filter((location) => {
+      return location.title.toLowerCase().includes(title);
+    });
+    return newLocations;
+  };
 
   return (
     <table
@@ -31,9 +28,11 @@ const Locations = () => {
         </tr>
       </thead>
       <tbody>
-        {locations.map((loc, index) => {
+        {filteredLocations().map((loc, index) => {
           if (loc.locations) {
             return <Film key={index} loc={loc} />;
+          } else {
+            return null;
           }
         })}
       </tbody>

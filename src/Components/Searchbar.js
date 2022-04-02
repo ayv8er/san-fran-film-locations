@@ -1,10 +1,25 @@
-import { Col } from "react-bootstrap";
+const Searchbar = (props) => {
+  const { searchTitle, setSearchTitle } = props;
 
-const Searchbar = () => {
+  const handleChange = (e) => {
+    e.preventDefault();
+    setSearchTitle(e.target.value);
+  };
+
   return (
-    <Col xxl={12} xl={12} lg={12} md={12} sm={12} xs={12}>
-      <p>Input search bar here</p>
-    </Col>
+    <div className="d-flex justify-content-center" style={{ margin: "2%" }}>
+      <label>
+        Search by Movie Title:
+        <input
+          type="text"
+          id="title"
+          name="search"
+          placeholder="enter title here"
+          onChange={handleChange}
+          value={searchTitle}
+        />
+      </label>
+    </div>
   );
 };
 
