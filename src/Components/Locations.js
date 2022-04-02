@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { Container } from "react-bootstrap";
+
+import Film from "./Film";
 
 import axios from "axios";
 
@@ -17,11 +20,11 @@ const Locations = () => {
       });
   }, []);
   return (
-    <>
+    <Container>
       {locations.map((loc, index) => {
-        return <p key={index}>{loc.title}</p>;
+        return <Film key={index} loc={loc} />;
       })}
-    </>
+    </Container>
   );
 };
 
