@@ -12,6 +12,7 @@ import { Container, Row, Col } from "react-bootstrap";
 
 function App() {
   const [locations, setLocations] = useState([]);
+  const [searchTitle, setSearchTitle] = useState("");
 
   useEffect(() => {
     axios
@@ -30,11 +31,11 @@ function App() {
       <Wrapper apiKey={process.env.GOOGLE_MAPS_API_KEY}>
         <Map />
       </Wrapper>
-      <Searchbar />
+      <Searchbar searchTitle={searchTitle} setSearchTitle={setSearchTitle} />
 
       <Row className="justify-space-evenly">
         <Col xxl={8} xl={8} lg={8} md={8} sm={8} xs={8}>
-          <Locations locations={locations} />
+          <Locations searchTitle={searchTitle} locations={locations} />
         </Col>
         <Itinerary />
       </Row>

@@ -1,7 +1,19 @@
 import Film from "./Film";
 
 const Locations = (props) => {
-  const { locations } = props;
+  const { searchTitle, locations } = props;
+
+  const filteredLocations = () => {
+    let title = searchTitle.trim().toLowerCase();
+    if (title === "") {
+      return locations;
+    }
+    let newLocations = locations.filter((location) => {
+      return location.title.toLowerCase().includes(title);
+    });
+    return newLocations;
+  };
+
   return (
     <table
       className="table table-light table-hover table-striped"
@@ -16,9 +28,11 @@ const Locations = (props) => {
         </tr>
       </thead>
       <tbody>
-        {locations.map((loc, index) => {
+        {filteredLocations().map((loc, index) => {
           if (loc.locations) {
             return <Film key={index} loc={loc} />;
+          } else {
+            return null;
           }
         })}
       </tbody>

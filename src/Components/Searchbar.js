@@ -1,6 +1,9 @@
-const Searchbar = () => {
+const Searchbar = (props) => {
+  const { searchTitle, setSearchTitle } = props;
+
   const handleChange = (e) => {
-    console.log(e.target.value);
+    e.preventDefault();
+    setSearchTitle(e.target.value);
   };
 
   return (
@@ -16,6 +19,7 @@ const Searchbar = () => {
           name="search"
           placeholder="Search by Film Title"
           onChange={handleChange}
+          value={searchTitle}
         />
       </label>
     </div>
