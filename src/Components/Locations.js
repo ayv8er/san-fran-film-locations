@@ -32,7 +32,9 @@ const Locations = () => {
       </thead>
       <tbody>
         {locations.map((loc, index) => {
-          return <Film key={index} loc={loc} />;
+          if (loc.locations) {
+            return <Film key={index} loc={loc} />;
+          }
         })}
       </tbody>
     </table>
