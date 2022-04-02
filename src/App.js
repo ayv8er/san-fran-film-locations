@@ -27,18 +27,11 @@ function App() {
 
   return (
     <Container fluid>
-      <Row>
-        <Col xxl={12} xl={12} lg={12} md={12} sm={12} xs={12}>
-          <Wrapper apiKey={process.env.GOOGLE_MAPS_API_KEY}>
-            <Map />
-          </Wrapper>
-        </Col>
-      </Row>
-      <Row>
-        <Col xxl={12} xl={12} lg={12} md={12} sm={12} xs={12}>
-          <Searchbar />
-        </Col>
-      </Row>
+      <Wrapper apiKey={process.env.GOOGLE_MAPS_API_KEY}>
+        <Map />
+      </Wrapper>
+      <Searchbar />
+
       <Row className="justify-space-evenly">
         <Col xxl={8} xl={8} lg={8} md={8} sm={8} xs={8}>
           <Locations locations={locations} />
