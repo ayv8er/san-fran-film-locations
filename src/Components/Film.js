@@ -3,10 +3,10 @@ const Film = (props) => {
 
   return (
     <tr>
-      <td>{loc.title}</td>
-      <td>{loc.locations}</td>
-      <td>{loc.director}</td>
-      <td>{loc.release_year}</td>
+      <td style={{ height: "60px" }}>{loc.title}</td>
+      <td style={{ height: "60px" }}>{loc.locations}</td>
+      <td style={{ height: "60px" }}>{loc.director}</td>
+      <td style={{ height: "60px" }}>{loc.release_year}</td>
     </tr>
   );
 };

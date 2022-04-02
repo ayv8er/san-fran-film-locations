@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-
 import Film from "./Film";
-
 import axios from "axios";
 
 const Locations = () => {
@@ -19,15 +17,17 @@ const Locations = () => {
       });
   }, []);
 
-  const tableHeaders = ["Title", "Location", "Director", "Released"];
-
   return (
-    <table className="table table-light table-hover table-striped">
+    <table
+      className="table table-light table-hover table-striped"
+      style={{ width: "100" }}
+    >
       <thead>
         <tr>
-          {tableHeaders.map((header, index) => (
-            <th key={index}>{header}</th>
-          ))}
+          <th style={{ width: "25%" }}>Title</th>
+          <th style={{ width: "40%" }}>Location</th>
+          <th style={{ width: "25%" }}>Director</th>
+          <th style={{ width: "10%" }}>Released</th>
         </tr>
       </thead>
       <tbody>
