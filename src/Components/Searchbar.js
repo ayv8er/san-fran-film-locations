@@ -7,17 +7,14 @@ const Searchbar = (props) => {
   };
 
   return (
-    <div
-      className="d-flex justify-content-center"
-      style={{ border: "1px solid red" }}
-    >
+    <div className="d-flex justify-content-center" style={{ margin: "2%" }}>
       <label>
         Search by Movie Title:
         <input
           type="text"
           id="title"
           name="search"
-          placeholder="Search by Film Title"
+          placeholder="enter title here"
           onChange={handleChange}
           value={searchTitle}
         />
