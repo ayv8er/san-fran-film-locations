@@ -1,4 +1,4 @@
-import Map from "./Components/Map";
+import Mapwrapper from "./Components/Mapwrapper";
 import Searchbar from "./Components/Searchbar";
 import Locations from "./Components/Locations";
 import Itinerary from "./Components/Itinerary";
@@ -9,7 +9,7 @@ function App() {
   return (
     <Container fluid>
       <Row className="justify-content-center">
-        <Map />
+        <Mapwrapper />
       </Row>
       <Row className="justify-content-center">
         <Searchbar />
