@@ -1,11 +1,21 @@
-import { Col } from "react-bootstrap";
+import { useState, useEffect } from "react";
+
+import axios from "axios";
 
 const Locations = () => {
-  return (
-    <Col xxl={6} xl={6} lg={6} md={6} sm={6} xs={6}>
-      <p>fetched data from data SF</p>
-    </Col>
-  );
+  const [locations, setLocations] = useState({});
+
+  useEffect(() => {
+    axios
+      .get("https://data.sfgov.org/resource/yitu-d5am.json")
+      .then((res) => {
+        setLocations(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+  return null;
 };
 
 export default Locations;
