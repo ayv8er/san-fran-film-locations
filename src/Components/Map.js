@@ -1,11 +1,17 @@
-import { Col } from "react-bootstrap";
+import { useEffect, useRef } from "react";
 
 const Map = () => {
-  return (
-    <Col xxl={12} xl={12} lg={12} md={12} sm={12} xs={12}>
-      <p>Google maps here</p>
-    </Col>
-  );
+  const ref = useRef();
+  const style = { height: "50vh" };
+
+  useEffect(() => {
+    new window.google.maps.Map(ref.current, {
+      center: { lat: 0, lng: 0 },
+      zoom: 3,
+    });
+  });
+
+  return <div ref={ref} id="map" style={style} />;
 };
 
 export default Map;
