@@ -19,8 +19,8 @@ const Itinerary = (props) => {
       >
         <thead>
           <tr>
-            <th style={{ width: "50%" }}>Title</th>
-            <th style={{ width: "50%" }}>Location</th>
+            <th style={{ width: "20%" }}>Title</th>
+            <th style={{ width: "80%" }}>Location</th>
           </tr>
         </thead>
         <tbody>

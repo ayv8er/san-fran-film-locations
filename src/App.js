@@ -21,6 +21,9 @@ function App() {
     axios
       .get("https://data.sfgov.org/resource/yitu-d5am.json")
       .then((res) => {
+        res.data.map((object) => {
+          return (object.which_list = "locations");
+        });
         setLocations(res.data);
       })
       .catch((error) => {
@@ -30,7 +33,7 @@ function App() {
 
   const dragStart = (event, index) => {
     dragFilm.current = locations[index];
-    event.dataTransfer.setData("id", index);
+    // event.dataTransfer.setData("id", index);
   };
 
   const dragOver = (event) => {
@@ -38,9 +41,10 @@ function App() {
   };
 
   const drop = (event) => {
-    event.preventDefault();
-    let id = event.dataTransfer.getData("id");
-    setItinerary([dragFilm.current]);
+    // let id = event.dataTransfer.getData("id");
+    dragFilm.current.which_list = "itinerary";
+    setItinerary([...itinerary, dragFilm.current]);
+    dragFilm.current = null;
   };
 
   return (

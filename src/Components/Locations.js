@@ -29,7 +29,7 @@ const Locations = (props) => {
       </thead>
       <tbody>
         {filteredLocations().map((loc, index) => {
-          if (loc.locations) {
+          if (loc.locations && loc.which_list === "locations") {
             return (
               <Film dragStart={dragStart} key={index} index={index} loc={loc} />
             );
