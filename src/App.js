@@ -30,21 +30,36 @@ function App() {
       });
   }, []);
 
-  const dragStart = (event, index) => {
+  const dragStart = (index) => {
     dragFilm.current = locations[index];
   };
 
   const dragOver = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
+    if (
+      (dragFilm.current.which_list === "locations" &&
+        event.target.className === "itinerary") ||
+      (dragFilm.current.which_list === "itinerary" &&
+        event.target.className === "locations")
+    ) {
+      event.preventDefault();
+    }
   };
 
   const drop = (event) => {
-    if (dragFilm.current.which_list === "locations") {
+    if (
+      dragFilm.current.which_list === "locations" &&
+      event.target.className === "itinerary"
+    ) {
       dragFilm.current.which_list = "itinerary";
-    } else {
+      setLocations([...locations]);
+    } else if (
+      dragFilm.current.which_list === "itinerary" &&
+      event.target.className === "locations"
+    ) {
       dragFilm.current.which_list = "locations";
+      setLocations([...locations]);
     }
-    setLocations([...locations]);
     dragFilm.current = null;
   };
 

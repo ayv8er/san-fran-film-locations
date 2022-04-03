@@ -5,6 +5,8 @@ const Itinerary = (props) => {
 
   return (
     <div
+      className="itinerary"
+      style={{ height: "45%" }}
       onDragOver={(event) => {
         dragOver(event);
       }}
@@ -13,19 +15,23 @@ const Itinerary = (props) => {
       }}
     >
       <table
-        className="table table-light table-hover table-striped"
+        className="itinerary table table-light table-hover table-striped"
         style={{ width: "100" }}
       >
-        <thead>
-          <tr>
-            <th style={{ width: "20%" }}>Title</th>
-            <th style={{ width: "80%" }}>Location</th>
+        <thead className="itinerary">
+          <tr className="itinerary">
+            <th className="itinerary" style={{ width: "20%" }}>
+              Title
+            </th>
+            <th className="itinerary" style={{ width: "80%" }}>
+              Location
+            </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="itinerary">
           {locations.length === 0 ? (
-            <tr>
-              <td>Drag a Film Location</td>
+            <tr className="itinerary">
+              <td className="itinerary">Drag a Film Location</td>
             </tr>
           ) : (
             locations.map((loc, index) => {

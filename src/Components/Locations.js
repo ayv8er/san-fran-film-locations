@@ -16,6 +16,7 @@ const Locations = (props) => {
 
   return (
     <div
+      className="locations"
       onDragOver={(event) => {
         dragOver(event);
       }}
@@ -24,18 +25,26 @@ const Locations = (props) => {
       }}
     >
       <table
-        className="table table-light table-hover table-striped"
+        className="locations table table-light table-hover table-striped"
         style={{ width: "100" }}
       >
-        <thead>
-          <tr>
-            <th style={{ width: "25%" }}>Title</th>
-            <th style={{ width: "40%" }}>Location</th>
-            <th style={{ width: "25%" }}>Director</th>
-            <th style={{ width: "10%" }}>Released</th>
+        <thead className="locations">
+          <tr className="locations">
+            <th className="locations" style={{ width: "25%" }}>
+              Title
+            </th>
+            <th className="locations" style={{ width: "40%" }}>
+              Location
+            </th>
+            <th className="locations" style={{ width: "25%" }}>
+              Director
+            </th>
+            <th className="locations" style={{ width: "10%" }}>
+              Released
+            </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="locations">
           {filteredLocations().map((loc, index) => {
             if (loc.locations && loc.which_list === "locations") {
               return (
