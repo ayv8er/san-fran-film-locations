@@ -1,7 +1,7 @@
 import Destination from "./Destination";
 
 const Itinerary = (props) => {
-  const { dragStart, dragOver, drop, locations } = props;
+  const { dragStart, dragOver, drop, locations, allFilmLocationObj } = props;
 
   return (
     <div
@@ -29,12 +29,12 @@ const Itinerary = (props) => {
           </tr>
         </thead>
         <tbody className="itinerary">
-          {locations.length === 0 ? (
+          {allFilmLocationObj.length === 0 ? (
             <tr className="itinerary">
               <td className="itinerary">Drag a Film Location</td>
             </tr>
           ) : (
-            locations.map((loc, index) => {
+            allFilmLocationObj.current.map((loc, index) => {
               if (loc.locations && loc.which_list === "itinerary") {
                 return (
                   <Destination

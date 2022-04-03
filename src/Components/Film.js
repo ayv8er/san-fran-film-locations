@@ -3,6 +3,7 @@ const Film = (props) => {
   return (
     <tr
       className="locations"
+      style={{ position: "static" }}
       draggable
       onDragStart={() => {
         dragStart(index);

@@ -3,6 +3,7 @@ const Destination = (props) => {
   return (
     <tr
       className="itinerary"
+      style={{ position: "static" }}
       draggable
       onDragStart={() => {
         dragStart(index);

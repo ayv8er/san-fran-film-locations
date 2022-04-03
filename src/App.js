@@ -14,6 +14,7 @@ function App() {
   const [locations, setLocations] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
 
+  let allFilmLocationObj = useRef([]);
   const dragFilm = useRef({});
 
   useEffect(() => {
@@ -23,6 +24,7 @@ function App() {
         res.data.map((object) => {
           return (object.which_list = "locations");
         });
+        allFilmLocationObj.current = res.data;
         setLocations(res.data);
       })
       .catch((error) => {
@@ -30,12 +32,23 @@ function App() {
       });
   }, []);
 
+  useEffect(() => {
+    let title = searchTitle.trim().toLowerCase();
+    if (title === "") {
+      setLocations(allFilmLocationObj.current);
+    } else {
+      const newLocations = allFilmLocationObj.current.filter((location) => {
+        return location.title.toLowerCase().includes(title);
+      });
+      setLocations(newLocations);
+    }
+  }, [searchTitle]);
+
   const dragStart = (index) => {
     dragFilm.current = locations[index];
   };
 
   const dragOver = (event) => {
-    // event.preventDefault();
     if (
       (dragFilm.current.which_list === "locations" &&
         event.target.className === "itinerary") ||
@@ -78,6 +91,7 @@ function App() {
             drop={drop}
             searchTitle={searchTitle}
             locations={locations}
+            setLocations={setLocations}
           />
         </Col>
         <Col xxl={4} xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -85,7 +99,7 @@ function App() {
             dragStart={dragStart}
             dragOver={dragOver}
             drop={drop}
-            locations={locations}
+            allFilmLocationObj={allFilmLocationObj}
           />
         </Col>
       </Row>
