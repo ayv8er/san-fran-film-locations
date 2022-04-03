@@ -1,6 +1,5 @@
 const Itinerary = (props) => {
   const { itinerary } = props;
-  console.log(itinerary);
 
   return (
     <table

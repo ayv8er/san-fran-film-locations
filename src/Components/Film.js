@@ -1,7 +1,7 @@
 const Film = (props) => {
   const { loc } = props;
   return (
-    <tr>
+    <tr draggable="true">
       <td style={{ height: "60px" }}>{loc.title}</td>
       <td style={{ height: "60px" }}>{loc.locations}</td>
       <td style={{ height: "60px" }}>{loc.director}</td>

@@ -30,7 +30,7 @@ const Locations = (props) => {
       <tbody>
         {filteredLocations().map((loc, index) => {
           if (loc.locations) {
-            return <Film key={index} loc={loc} />;
+            return <Film draggable="true" key={index} loc={loc} />;
           } else {
             return null;
           }
