@@ -9,7 +9,7 @@ const Map = () => {
       center: { lat: 0, lng: 0 },
       zoom: 3,
     });
-  });
+  }, []);
 
   return <div ref={ref} id="map" style={style} />;
 };

@@ -1,11 +1,26 @@
 const Film = (props) => {
-  const { loc } = props;
+  const { dragStart, loc, index } = props;
   return (
-    <tr>
-      <td style={{ height: "60px" }}>{loc.title}</td>
-      <td style={{ height: "60px" }}>{loc.locations}</td>
-      <td style={{ height: "60px" }}>{loc.director}</td>
-      <td style={{ height: "60px" }}>{loc.release_year}</td>
+    <tr
+      className="locations"
+      style={{ position: "static" }}
+      draggable
+      onDragStart={() => {
+        dragStart(index);
+      }}
+    >
+      <td className="locations" style={{ height: "60px" }}>
+        {loc.title}
+      </td>
+      <td className="locations" style={{ height: "60px" }}>
+        {loc.locations}
+      </td>
+      <td className="locations" style={{ height: "60px" }}>
+        {loc.director}
+      </td>
+      <td className="locations" style={{ height: "60px" }}>
+        {loc.release_year}
+      </td>
     </tr>
   );
 };
