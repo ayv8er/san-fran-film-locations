@@ -22,12 +22,26 @@ function App() {
       .get("https://data.sfgov.org/resource/yitu-d5am.json")
       .then((res) => {
         setLocations(res.data);
-        console.log(res.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+  const dragStart = (event, index) => {
+    dragFilm.current = locations[index];
+    event.dataTransfer.setData("id", index);
+  };
+
+  const dragOver = (event) => {
+    event.preventDefault();
+  };
+
+  const drop = (event) => {
+    event.preventDefault();
+    let id = event.dataTransfer.getData("id");
+    setItinerary([dragFilm.current]);
+  };
 
   return (
     <Container fluid>
@@ -39,13 +53,13 @@ function App() {
       <Row>
         <Col xxl={8} xl={8} lg={8} md={8} sm={8} xs={8}>
           <Locations
-            dragFilm={dragFilm}
+            dragStart={dragStart}
             searchTitle={searchTitle}
             locations={locations}
           />
         </Col>
         <Col xxl={4} xl={4} lg={4} md={4} sm={4} xs={4}>
-          <Itinerary itinerary={itinerary} />
+          <Itinerary dragOver={dragOver} drop={drop} itinerary={itinerary} />
         </Col>
       </Row>
     </Container>

@@ -1,19 +1,41 @@
+import Destination from "./Destination";
+
 const Itinerary = (props) => {
-  const { itinerary } = props;
+  const { dragOver, drop, itinerary } = props;
 
   return (
-    <table
-      className="table table-light table-hover table-striped"
-      style={{ width: "100" }}
+    <div
+      className="itinerary"
+      onDragOver={(event) => {
+        dragOver(event);
+      }}
+      onDrop={(event) => {
+        drop(event);
+      }}
     >
-      <thead>
-        <tr>
-          <th style={{ width: "50%" }}>Title</th>
-          <th style={{ width: "50%" }}>Location</th>
-        </tr>
-      </thead>
-      <tbody>{itinerary.length === 0 ? <tr>No</tr> : null}</tbody>
-    </table>
+      <table
+        className="table table-light table-hover table-striped"
+        style={{ width: "100" }}
+      >
+        <thead>
+          <tr>
+            <th style={{ width: "50%" }}>Title</th>
+            <th style={{ width: "50%" }}>Location</th>
+          </tr>
+        </thead>
+        <tbody>
+          {itinerary.length === 0 ? (
+            <tr>
+              <td>Drag a Film Location</td>
+            </tr>
+          ) : (
+            itinerary.map((loc, index) => {
+              return <Destination key={index} loc={loc} />;
+            })
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

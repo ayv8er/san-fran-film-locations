@@ -1,11 +1,11 @@
-const Film = (props) => {
-  const { dragStart, loc, index } = props;
+const Destination = (props) => {
+  const { loc } = props;
   return (
     <tr
-      draggable="true"
-      onDragStart={(event) => {
-        dragStart(event, index);
-      }}
+      draggable
+      // onDragStart={(event) => {
+      //   dragStart(event, index);
+      // }}
     >
       <td style={{ height: "60px" }}>{loc.title}</td>
       <td style={{ height: "60px" }}>{loc.locations}</td>
@@ -15,4 +15,4 @@ const Film = (props) => {
   );
 };
 
-export default Film;
+export default Destination;

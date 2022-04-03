@@ -1,7 +1,7 @@
 import Film from "./Film";
 
 const Locations = (props) => {
-  const { dragFilm, searchTitle, locations } = props;
+  const { dragStart, searchTitle, locations } = props;
 
   const filteredLocations = () => {
     let title = searchTitle.trim().toLowerCase();
@@ -12,12 +12,6 @@ const Locations = (props) => {
       return location.title.toLowerCase().includes(title);
     });
     return newLocations;
-  };
-
-  const dragStart = (event, index) => {
-    event.preventDefault();
-    dragFilm.current = locations[index];
-    console.log(dragFilm.current);
   };
 
   return (
@@ -37,7 +31,7 @@ const Locations = (props) => {
         {filteredLocations().map((loc, index) => {
           if (loc.locations) {
             return (
-              <Film dragStart={dragStart} index={index} key={index} loc={loc} />
+              <Film dragStart={dragStart} key={index} index={index} loc={loc} />
             );
           } else {
             return null;
