@@ -12,11 +12,7 @@ const Itinerary = (props) => {
           <th style={{ width: "50%" }}>Location</th>
         </tr>
       </thead>
-      <tbody>
-        {itinerary.length === 0 ? (
-          <p>Drag a location you'd like to visit!</p>
-        ) : null}
-      </tbody>
+      <tbody>{itinerary.length === 0 ? <tr>No</tr> : null}</tbody>
     </table>
   );
 };
