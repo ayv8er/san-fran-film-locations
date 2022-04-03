@@ -1,11 +1,10 @@
 import Destination from "./Destination";
 
 const Itinerary = (props) => {
-  const { dragOver, drop, itinerary } = props;
+  const { dragStart, dragOver, drop, locations } = props;
 
   return (
     <div
-      className="itinerary"
       onDragOver={(event) => {
         dragOver(event);
       }}
@@ -24,13 +23,24 @@ const Itinerary = (props) => {
           </tr>
         </thead>
         <tbody>
-          {itinerary.length === 0 ? (
+          {locations.length === 0 ? (
             <tr>
               <td>Drag a Film Location</td>
             </tr>
           ) : (
-            itinerary.map((loc, index) => {
-              return <Destination key={index} loc={loc} />;
+            locations.map((loc, index) => {
+              if (loc.locations && loc.which_list === "itinerary") {
+                return (
+                  <Destination
+                    dragStart={dragStart}
+                    key={index}
+                    index={index}
+                    loc={loc}
+                  />
+                );
+              } else {
+                return null;
+              }
             })
           )}
         </tbody>

@@ -12,7 +12,6 @@ import { Container, Row, Col } from "react-bootstrap";
 
 function App() {
   const [locations, setLocations] = useState([]);
-  const [itinerary, setItinerary] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
 
   const dragFilm = useRef({});
@@ -33,7 +32,6 @@ function App() {
 
   const dragStart = (event, index) => {
     dragFilm.current = locations[index];
-    // event.dataTransfer.setData("id", index);
   };
 
   const dragOver = (event) => {
@@ -41,9 +39,12 @@ function App() {
   };
 
   const drop = (event) => {
-    // let id = event.dataTransfer.getData("id");
-    dragFilm.current.which_list = "itinerary";
-    setItinerary([...itinerary, dragFilm.current]);
+    if (dragFilm.current.which_list === "locations") {
+      dragFilm.current.which_list = "itinerary";
+    } else {
+      dragFilm.current.which_list = "locations";
+    }
+    setLocations([...locations]);
     dragFilm.current = null;
   };
 
@@ -58,12 +59,19 @@ function App() {
         <Col xxl={8} xl={8} lg={8} md={8} sm={8} xs={8}>
           <Locations
             dragStart={dragStart}
+            dragOver={dragOver}
+            drop={drop}
             searchTitle={searchTitle}
             locations={locations}
           />
         </Col>
         <Col xxl={4} xl={4} lg={4} md={4} sm={4} xs={4}>
-          <Itinerary dragOver={dragOver} drop={drop} itinerary={itinerary} />
+          <Itinerary
+            dragStart={dragStart}
+            dragOver={dragOver}
+            drop={drop}
+            locations={locations}
+          />
         </Col>
       </Row>
     </Container>

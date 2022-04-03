@@ -2,7 +2,7 @@ const Film = (props) => {
   const { dragStart, loc, index } = props;
   return (
     <tr
-      draggable="true"
+      draggable
       onDragStart={(event) => {
         dragStart(event, index);
       }}
