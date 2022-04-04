@@ -12,19 +12,22 @@ import { Container, Row, Col } from "react-bootstrap";
 
 function App() {
   const [locations, setLocations] = useState([]);
+  const [destinations, setDestinations] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
 
-  let allFilmLocationObj = useRef([]);
-  const dragFilm = useRef({});
+  const draggedFilm = useRef({});
+  const draggedFilmIndex = useRef();
 
   useEffect(() => {
     axios
       .get("https://data.sfgov.org/resource/yitu-d5am.json")
       .then((res) => {
-        res.data.map((object) => {
-          return (object.which_list = "locations");
+        res.data.map((object, index) => {
+          object.which_list = "locations";
+          object.original_index = index;
+          return object;
         });
-        allFilmLocationObj.current = res.data;
+        res.data.sort((a, b) => (a.title > b.title ? 1 : -1));
         setLocations(res.data);
       })
       .catch((error) => {
@@ -35,24 +38,28 @@ function App() {
   useEffect(() => {
     let title = searchTitle.trim().toLowerCase();
     if (title === "") {
-      setLocations(allFilmLocationObj.current);
+      setLocations(locations);
     } else {
-      const newLocations = allFilmLocationObj.current.filter((location) => {
+      const newLocations = locations.filter((location) => {
         return location.title.toLowerCase().includes(title);
       });
       setLocations(newLocations);
     }
   }, [searchTitle]);
 
-  const dragStart = (index) => {
-    dragFilm.current = locations[index];
+  const dragStart = (event, currentIndex) => {
+    if (event.target.className === "locations") {
+      draggedFilm.current = locations[currentIndex];
+    } else if (event.target.className === "itinerary") {
+      draggedFilm.current = destinations[currentIndex];
+    }
   };
 
   const dragOver = (event) => {
     if (
-      (dragFilm.current.which_list === "locations" &&
+      (draggedFilm.current.which_list === "locations" &&
         event.target.className === "itinerary") ||
-      (dragFilm.current.which_list === "itinerary" &&
+      (draggedFilm.current.which_list === "itinerary" &&
         event.target.className === "locations")
     ) {
       event.preventDefault();
@@ -61,26 +68,42 @@ function App() {
 
   const drop = (event) => {
     if (
-      dragFilm.current.which_list === "locations" &&
+      draggedFilm.current.which_list === "locations" &&
       event.target.className === "itinerary"
     ) {
-      dragFilm.current.which_list = "itinerary";
-      setLocations([...locations]);
+      draggedFilm.current.which_list = "itinerary";
+      setDestinations([...destinations, draggedFilm.current]);
+      const updatedLocations = locations.filter(
+        (loc) => loc.original_index !== draggedFilm.current.original_index
+      );
+      setLocations(updatedLocations);
     } else if (
-      dragFilm.current.which_list === "itinerary" &&
+      draggedFilm.current.which_list === "itinerary" &&
       event.target.className === "locations"
     ) {
-      dragFilm.current.which_list = "locations";
-      setLocations([...locations]);
+      draggedFilm.current.which_list = "locations";
+      locations.splice(
+        draggedFilm.current.original_index,
+        0,
+        draggedFilm.current
+      );
+      locations.sort((a, b) => (a.title > b.title ? 1 : -1));
+      setLocations(locations);
+      const updatedLocations = destinations.filter(
+        (loc) => loc.original_index !== draggedFilm.current.original_index
+      );
+      setDestinations(updatedLocations);
     }
-    dragFilm.current = null;
+    draggedFilm.current = null;
+    draggedFilmIndex.current = null;
   };
 
   return (
     <Container fluid>
-      <Wrapper apiKey={process.env.GOOGLE_MAPS_API_KEY}>
+      <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
         <Map />
       </Wrapper>
+
       <Searchbar searchTitle={searchTitle} setSearchTitle={setSearchTitle} />
 
       <Row>
@@ -91,7 +114,6 @@ function App() {
             drop={drop}
             searchTitle={searchTitle}
             locations={locations}
-            setLocations={setLocations}
           />
         </Col>
         <Col xxl={4} xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -99,7 +121,7 @@ function App() {
             dragStart={dragStart}
             dragOver={dragOver}
             drop={drop}
-            allFilmLocationObj={allFilmLocationObj}
+            destinations={destinations}
           />
         </Col>
       </Row>

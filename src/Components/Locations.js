@@ -15,7 +15,7 @@ const Locations = (props) => {
     >
       <table
         className="locations table table-light table-hover table-striped"
-        style={{ width: "100" }}
+        style={{ width: "100%" }}
       >
         <thead className="locations">
           <tr className="locations">
@@ -35,7 +35,7 @@ const Locations = (props) => {
         </thead>
         <tbody className="locations">
           {locations.map((loc, index) => {
-            if (loc.locations && loc.which_list === "locations") {
+            if (loc.locations) {
               return (
                 <Film
                   dragStart={dragStart}

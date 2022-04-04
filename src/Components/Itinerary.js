@@ -1,12 +1,12 @@
 import Destination from "./Destination";
 
 const Itinerary = (props) => {
-  const { dragStart, dragOver, drop, locations, allFilmLocationObj } = props;
+  const { dragStart, dragOver, drop, destinations } = props;
 
   return (
     <div
       className="itinerary"
-      style={{ height: "45%" }}
+      style={{ height: "45%" }} // fine tune this design issue
       onDragOver={(event) => {
         dragOver(event);
       }}
@@ -29,26 +29,22 @@ const Itinerary = (props) => {
           </tr>
         </thead>
         <tbody className="itinerary">
-          {allFilmLocationObj.length === 0 ? (
-            <tr className="itinerary">
-              <td className="itinerary">Drag a Film Location</td>
-            </tr>
-          ) : (
-            allFilmLocationObj.current.map((loc, index) => {
-              if (loc.locations && loc.which_list === "itinerary") {
-                return (
-                  <Destination
-                    dragStart={dragStart}
-                    key={index}
-                    index={index}
-                    loc={loc}
-                  />
-                );
-              } else {
-                return null;
-              }
-            })
-          )}
+          {destinations.length === 0
+            ? null
+            : destinations.map((loc, index) => {
+                if (loc.locations) {
+                  return (
+                    <Destination
+                      dragStart={dragStart}
+                      key={index}
+                      index={index}
+                      loc={loc}
+                    />
+                  );
+                } else {
+                  return null;
+                }
+              })}
         </tbody>
       </table>
     </div>
