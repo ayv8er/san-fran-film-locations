@@ -24,10 +24,10 @@ const Map = (props) => {
       geocoder
         .geocode({ address: loc.locations })
         .then((res) => {
-          console.log(res);
           const lat = res.results[0].geometry.location.lat();
           const lng = res.results[0].geometry.location.lng();
-          setMarkers(...markers, { lat, lng });
+          const position = { lat, lng };
+          setMarkers([...markers, position]);
         })
         .catch((error) => {
           console.log(error);
@@ -37,9 +37,11 @@ const Map = (props) => {
 
   useEffect(() => {
     if (map) {
-      new window.google.maps.Marker({
-        position: { lat: 37.7749, lng: -122.4194 },
-        map,
+      markers.map((position) => {
+        new window.google.maps.Marker({
+          position: position,
+          map,
+        });
       });
     }
   }, [map, markers]);
