@@ -3,10 +3,9 @@ const Film = (props) => {
   return (
     <tr
       className="locations"
-      style={{ position: "static" }}
       draggable
-      onDragStart={() => {
-        dragStart(index);
+      onDragStart={(event) => {
+        dragStart(event, index);
       }}
     >
       <td className="locations" style={{ height: "60px" }}>

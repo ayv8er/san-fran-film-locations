@@ -1,7 +1,8 @@
 import Film from "./Film";
 
 const Locations = (props) => {
-  const { dragStart, dragOver, drop, locations } = props;
+  const { dragStart, dragOver, drop, locations, isSearching, filteredList } =
+    props;
 
   return (
     <div
@@ -15,7 +16,7 @@ const Locations = (props) => {
     >
       <table
         className="locations table table-light table-hover table-striped"
-        style={{ width: "100" }}
+        style={{ width: "100%" }}
       >
         <thead className="locations">
           <tr className="locations">
@@ -34,20 +35,27 @@ const Locations = (props) => {
           </tr>
         </thead>
         <tbody className="locations">
-          {locations.map((loc, index) => {
-            if (loc.locations && loc.which_list === "locations") {
-              return (
-                <Film
-                  dragStart={dragStart}
-                  key={index}
-                  index={index}
-                  loc={loc}
-                />
-              );
-            } else {
-              return null;
-            }
-          })}
+          {isSearching.current
+            ? filteredList.map((loc, index) => {
+                return (
+                  <Film
+                    dragStart={dragStart}
+                    key={index}
+                    index={index}
+                    loc={loc}
+                  />
+                );
+              })
+            : locations.map((loc, index) => {
+                return (
+                  <Film
+                    dragStart={dragStart}
+                    key={index}
+                    index={index}
+                    loc={loc}
+                  />
+                );
+              })}
         </tbody>
       </table>
     </div>

@@ -1,12 +1,11 @@
 const Destination = (props) => {
-  const { dragStart, index, loc } = props;
+  const { dragStart, loc, index } = props;
   return (
     <tr
       className="itinerary"
-      style={{ position: "static" }}
       draggable
-      onDragStart={() => {
-        dragStart(index);
+      onDragStart={(event) => {
+        dragStart(event, index);
       }}
     >
       <td className="itinerary" style={{ height: "60px" }}>
