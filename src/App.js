@@ -37,6 +37,7 @@ function App() {
   }, []);
 
   const dragStart = (event, currentIndex) => {
+    console.log(currentIndex);
     if (event.target.className === "locations") {
       draggedFilm.current = locations[currentIndex];
     } else if (event.target.className === "itinerary") {

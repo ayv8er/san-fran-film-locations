@@ -20,8 +20,10 @@ const Map = (props) => {
   }, [ref, map]);
 
   useEffect(() => {
+    // add if guard here
+
     destinations.map((loc) => {
-      geocoder
+      return geocoder
         .geocode({ address: loc.locations })
         .then((res) => {
           const lat = res.results[0].geometry.location.lat();
@@ -33,12 +35,12 @@ const Map = (props) => {
           console.log(error);
         });
     });
-  });
+  }, [destinations]);
 
   useEffect(() => {
     if (map) {
       markers.map((position) => {
-        new window.google.maps.Marker({
+        return new window.google.maps.Marker({
           position: position,
           map,
         });
