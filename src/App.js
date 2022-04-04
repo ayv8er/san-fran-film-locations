@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Wrapper } from "@googlemaps/react-wrapper";
 
-import axios from "axios";
-
 import Map from "./Components/Google/Map";
 import Searchbar from "./Components/Searchbar";
 import Locations from "./Components/Locations";
 import Itinerary from "./Components/Itinerary";
+
+import { fetchFilms } from "./utils/fetchFilms";
 
 import { Container, Row, Col } from "react-bootstrap";
 
@@ -21,20 +21,7 @@ function App() {
   const isSearching = useRef(false);
 
   useEffect(() => {
-    axios
-      .get("https://data.sfgov.org/resource/yitu-d5am.json")
-      .then((res) => {
-        res.data.map((object, index) => {
-          object.which_list = "locations";
-          object.original_index = index;
-          return object;
-        });
-        console.log(res.data);
-        setLocations(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    setLocations(fetchFilms());
   }, []);
 
   const dragStart = (event, currentIndex) => {
