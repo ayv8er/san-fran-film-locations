@@ -4,8 +4,6 @@ import { Wrapper } from "@googlemaps/react-wrapper";
 import axios from "axios";
 
 import Map from "./Components/Google/Map";
-import Marker from "./Components/Google/Marker";
-
 import Searchbar from "./Components/Searchbar";
 import Locations from "./Components/Locations";
 import Itinerary from "./Components/Itinerary";
@@ -15,8 +13,8 @@ import { Container, Row, Col } from "react-bootstrap";
 function App() {
   const [locations, setLocations] = useState([]);
   const [destinations, setDestinations] = useState([]);
-  const [searchTitle, setSearchTitle] = useState();
   const [filteredList, setFilteredList] = useState([]);
+  const [searchTitle, setSearchTitle] = useState("");
 
   const draggedFilm = useRef({});
   const draggedFilmIndex = useRef(null);
@@ -31,6 +29,7 @@ function App() {
           object.original_index = index;
           return object;
         });
+        console.log(res.data);
         setLocations(res.data);
       })
       .catch((error) => {
@@ -89,21 +88,10 @@ function App() {
     draggedFilmIndex.current = null;
   };
 
-  const positions = [
-    { lat: 120, lng: 30 },
-    { lat: 90, lng: 0 },
-  ];
-  const zoom = 4;
-  const center = { lat: 0, lng: 0 };
-
   return (
     <Container fluid>
       <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-        <Map zoom={zoom} center={center} locations={locations}>
-          {positions.map((position, index) => (
-            <Marker key={index} position={position} />
-          ))}
-        </Map>
+        <Map locations={locations} destinations={destinations} />
       </Wrapper>
 
       <Searchbar
