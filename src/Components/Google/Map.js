@@ -1,47 +1,48 @@
 import { useEffect, useState, useRef } from "react";
 
 const Map = (props) => {
-  const { children, center, zoom } = props;
-  const geocoder = new window.google.maps.Geocoder();
-
-  const ref = useRef(null);
-
+  const { destinations } = props;
   const [map, setMap] = useState();
-
+  const [markers, setMarkers] = useState([]);
+  const ref = useRef(null);
   const style = { height: "50vh" };
-
-  useEffect(() => {
-    geocoder
-      .geocode({ address: "1401 NE John Deshields Blvd" }) // insert array of addresses from fetched dataset
-      .then((result) => {
-        console.log(result);
-        // const { results } = result.results;
-        // const firstResult = results[0];
-        // const location = firstResult.geometry.location;
-        // const lat = location.lat();
-        // const lng = location.lng();
-        // setCenter({ lat, lng });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
+  const geocoder = new window.google.maps.Geocoder();
 
   useEffect(() => {
     if (ref.current && !map) {
-      setMap(new window.google.maps.Map(ref.current, {}));
+      setMap(
+        new window.google.maps.Map(ref.current, {
+          center: { lat: 37.7749, lng: -122.4194 },
+          zoom: 9,
+        })
+      );
     }
   }, [ref, map]);
 
   useEffect(() => {
-    if (map) {
-      map.setOptions({ center, zoom: 3 });
-    }
-    new window.google.maps.Marker({
-      position: center,
-      map,
+    destinations.map((loc) => {
+      geocoder
+        .geocode({ address: loc.locations })
+        .then((res) => {
+          console.log(res);
+          const lat = res.results[0].geometry.location.lat();
+          const lng = res.results[0].geometry.location.lng();
+          setMarkers(...markers, { lat, lng });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     });
-  }, [map, center]);
+  });
+
+  useEffect(() => {
+    if (map) {
+      new window.google.maps.Marker({
+        position: { lat: 37.7749, lng: -122.4194 },
+        map,
+      });
+    }
+  }, [map, markers]);
 
   return <div ref={ref} id="map" style={style} />;
 };
