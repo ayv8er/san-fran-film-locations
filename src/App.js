@@ -13,10 +13,12 @@ import { Container, Row, Col } from "react-bootstrap";
 function App() {
   const [locations, setLocations] = useState([]);
   const [destinations, setDestinations] = useState([]);
-  const [searchTitle, setSearchTitle] = useState("");
+  const [searchTitle, setSearchTitle] = useState();
+  const [filteredList, setFilteredList] = useState([]);
 
   const draggedFilm = useRef({});
-  const draggedFilmIndex = useRef();
+  const draggedFilmIndex = useRef(null);
+  const isSearching = useRef(false);
 
   useEffect(() => {
     axios
@@ -27,25 +29,12 @@ function App() {
           object.original_index = index;
           return object;
         });
-        res.data.sort((a, b) => (a.title > b.title ? 1 : -1));
         setLocations(res.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-
-  useEffect(() => {
-    let title = searchTitle.trim().toLowerCase();
-    if (title === "") {
-      setLocations(locations);
-    } else {
-      const newLocations = locations.filter((location) => {
-        return location.title.toLowerCase().includes(title);
-      });
-      setLocations(newLocations);
-    }
-  }, [searchTitle]);
 
   const dragStart = (event, currentIndex) => {
     if (event.target.className === "locations") {
@@ -103,17 +92,22 @@ function App() {
       <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
         <Map />
       </Wrapper>
-
-      <Searchbar searchTitle={searchTitle} setSearchTitle={setSearchTitle} />
-
+      <Searchbar
+        isSearching={isSearching}
+        searchTitle={searchTitle}
+        setSearchTitle={setSearchTitle}
+        setFilteredList={setFilteredList}
+        locations={locations}
+      />
       <Row>
         <Col xxl={8} xl={8} lg={8} md={8} sm={8} xs={8}>
           <Locations
             dragStart={dragStart}
             dragOver={dragOver}
             drop={drop}
-            searchTitle={searchTitle}
             locations={locations}
+            isSearching={isSearching}
+            filteredList={filteredList}
           />
         </Col>
         <Col xxl={4} xl={4} lg={4} md={4} sm={4} xs={4}>
