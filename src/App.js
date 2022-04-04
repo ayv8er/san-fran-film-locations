@@ -3,7 +3,9 @@ import { Wrapper } from "@googlemaps/react-wrapper";
 
 import axios from "axios";
 
-import Map from "./Components/Map";
+import Map from "./Components/Google/Map";
+import Marker from "./Components/Google/Marker";
+
 import Searchbar from "./Components/Searchbar";
 import Locations from "./Components/Locations";
 import Itinerary from "./Components/Itinerary";
@@ -87,11 +89,23 @@ function App() {
     draggedFilmIndex.current = null;
   };
 
+  const positions = [
+    { lat: 120, lng: 30 },
+    { lat: 90, lng: 0 },
+  ];
+  const zoom = 4;
+  const center = { lat: 0, lng: 0 };
+
   return (
     <Container fluid>
       <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-        <Map />
+        <Map zoom={zoom} center={center} locations={locations}>
+          {positions.map((position, index) => (
+            <Marker key={index} position={position} />
+          ))}
+        </Map>
       </Wrapper>
+
       <Searchbar
         isSearching={isSearching}
         searchTitle={searchTitle}
