@@ -29,6 +29,7 @@ function App() {
           object.original_index = index;
           return object;
         });
+        console.log(res.data);
         setLocations(res.data);
       })
       .catch((error) => {
@@ -37,7 +38,6 @@ function App() {
   }, []);
 
   const dragStart = (event, currentIndex) => {
-    console.log(currentIndex);
     if (event.target.className === "locations") {
       draggedFilm.current = locations[currentIndex];
     } else if (event.target.className === "itinerary") {
