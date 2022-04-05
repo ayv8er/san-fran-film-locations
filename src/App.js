@@ -12,25 +12,16 @@ import { Container } from "react-bootstrap";
 function App() {
   const [map, setMap] = useState();
   const [markers, setMarkers] = useState([]);
-  const [searchTitle, setSearchTitle] = useState(""); // for searchbar
-  const [locations, setLocations] = useState([]); // for main list rendering
-  const [originals, setOriginals] = useState([]); // copy main once on initial render
+  const [searchTitle, setSearchTitle] = useState("");
+  const [locations, setLocations] = useState([]);
   const filmIndex = useRef(null);
 
   useEffect(() => {
     axios
       .get("https://data.sfgov.org/resource/yitu-d5am.json")
       .then((res) => {
-        res.data.map((object, index) => {
-          if (!object.locations) {
-            return null;
-          } else {
-            object.original_index = index;
-            return object;
-          }
-        });
-        setLocations(res.data);
-        setOriginals(res.data);
+        const data = res.data.filter((object) => !!object.locations);
+        setLocations(data);
       })
       .catch((error) => {
         console.log(error);
@@ -51,8 +42,28 @@ function App() {
     }
   };
 
+  const findFilm = (filterTitle, filterLocation) => {
+    locations.map((loc, index) => {
+      if (filterTitle === loc.title && filterLocation === loc.locations) {
+        filmIndex.current = index;
+      }
+    });
+  };
+
+  const replaceAmpersands = (phrase) => {
+    const words = phrase.split(" ");
+    if (words.length === 1) {
+      return phrase;
+    }
+    const indexofAmpersand = words.indexOf("&amp;");
+    words[indexofAmpersand] = "&";
+    return words.join(" ");
+  };
+
   const dragStart = (event, id) => {
-    filmIndex.current = id;
+    const titleHTML = replaceAmpersands(event.target.cells[0].innerHTML);
+    const locationHTML = replaceAmpersands(event.target.cells[1].innerHTML);
+    findFilm(titleHTML, locationHTML);
   };
 
   const dragOver = (event) => {
@@ -62,16 +73,23 @@ function App() {
   };
 
   const drop = (event) => {
+    if (locations[filmIndex.current] === undefined) {
+      alert("Sorry, we're currently unable to locate this place of interest.");
+      return;
+    }
     getLatLng(locations[filmIndex.current]);
     removeFilm(locations, filmIndex.current);
     filmIndex.current = null;
   };
 
   const getLatLng = (locationObject) => {
+    if (locationObject === undefined) {
+      alert("Sorry, we're currently unable to locate this place of interest.");
+      return;
+    }
     new window.google.maps.Geocoder()
       .geocode({ address: locationObject.locations })
       .then((res) => {
-        console.log(res.results);
         const lat = res.results[0].geometry.location.lat();
         const lng = res.results[0].geometry.location.lng();
         setMarkers([...markers, { lat, lng }]);
@@ -95,16 +113,13 @@ function App() {
           markers={markers}
         />
       </Wrapper>
-      <Searchbar
-        searchTitle={searchTitle}
-        setSearchTitle={setSearchTitle}
-        locations={locations}
-      />
+      <Searchbar searchTitle={searchTitle} setSearchTitle={setSearchTitle} />
       <Locations
         dragStart={dragStart}
         dragOver={dragOver}
         drop={drop}
         locations={locations}
+        searchTitle={searchTitle}
       />
     </Container>
   );
