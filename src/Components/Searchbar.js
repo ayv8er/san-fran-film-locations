@@ -1,34 +1,9 @@
 const Searchbar = (props) => {
-  const {
-    searchTitle,
-    setSearchTitle,
-    isSearching,
-    setFilteredList,
-    locations,
-  } = props;
-
-  const filter = (list) => {
-    setFilteredList(list);
-  };
-
-  const checkSearchTitle = (searchWord) => {
-    if (searchWord === "") {
-      isSearching.current = false;
-      setSearchTitle(searchWord);
-    } else {
-      isSearching.current = true;
-      setSearchTitle(searchWord);
-    }
-    const filteredList = locations.filter((loc) => {
-      return loc.title.toLowerCase().includes(searchWord);
-    });
-    filter(filteredList);
-  };
+  const { searchTitle, setSearchTitle } = props;
 
   const handleChange = (event) => {
     event.preventDefault();
-    const searchTitle = event.target.value.trim().toLowerCase();
-    checkSearchTitle(searchTitle);
+    setSearchTitle(event.target.value);
   };
 
   return (

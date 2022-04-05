@@ -42,7 +42,6 @@ function App() {
     } else {
       const firstHalf = array.slice(0, index);
       const secondHalf = array.slice(index + 1);
-      console.log([...firstHalf, ...secondHalf]);
       return [...firstHalf, ...secondHalf];
     }
     return newArray;
@@ -69,13 +68,11 @@ function App() {
       <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
         <Map dragOver={dragOver} drop={drop} destinations={destinations} />
       </Wrapper>
-
       <Searchbar
         searchTitle={searchTitle}
         setSearchTitle={setSearchTitle}
         locations={locations}
       />
-
       <Locations
         dragStart={dragStart}
         dragOver={dragOver}
