@@ -13,7 +13,7 @@ const Map = (props) => {
       setMap(
         new window.google.maps.Map(ref.current, {
           center: { lat: 37.7749, lng: -122.4194 },
-          zoom: 9,
+          zoom: 11.5,
         })
       );
     }
