@@ -7,7 +7,7 @@ const Searchbar = (props) => {
   };
 
   return (
-    <div className="d-flex justify-content-center" style={{ margin: "2%" }}>
+    <div className="d-flex justify-content-center" style={{ margin: "1%" }}>
       <label>
         Search by Movie Title:
         <input
