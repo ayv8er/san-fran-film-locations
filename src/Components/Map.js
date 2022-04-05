@@ -1,12 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const Map = (props) => {
-  const { dragOver, drop, destinations } = props;
-  const [map, setMap] = useState();
-  const [markers, setMarkers] = useState([]);
+  const { dragOver, drop, map, setMap, markers } = props;
   const ref = useRef(null);
-  const style = { height: "50vh" };
-  const geocoder = new window.google.maps.Geocoder();
 
   useEffect(() => {
     if (ref.current && !map) {
@@ -18,24 +14,6 @@ const Map = (props) => {
       );
     }
   }, [ref, map]);
-
-  useEffect(() => {
-    // add if guard here
-
-    destinations.map((loc) => {
-      return geocoder
-        .geocode({ address: loc.locations })
-        .then((res) => {
-          const lat = res.results[0].geometry.location.lat();
-          const lng = res.results[0].geometry.location.lng();
-          const position = { lat, lng };
-          setMarkers([...markers, position]);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
-  }, [destinations]);
 
   useEffect(() => {
     if (map) {
@@ -50,8 +28,6 @@ const Map = (props) => {
 
   return (
     <div
-      style={style}
-      className="itinerary"
       onDragOver={(event) => {
         dragOver(event);
       }}
@@ -59,7 +35,7 @@ const Map = (props) => {
         drop(event);
       }}
     >
-      <div className="itinerary" ref={ref} id="map" style={style} />;
+      <div ref={ref} style={{ height: "50vh" }} />;
     </div>
   );
 };
