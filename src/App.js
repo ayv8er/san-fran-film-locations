@@ -92,7 +92,7 @@ function App() {
       .then((res) => {
         const lat = res.results[0].geometry.location.lat();
         const lng = res.results[0].geometry.location.lng();
-        setMarkers([...markers, { title: locationObject.title, lat, lng }]);
+        setMarkers([...markers, { lat, lng }]);
       })
       .catch((error) => {
         console.log(error);

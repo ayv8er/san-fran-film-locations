@@ -19,7 +19,7 @@ const Map = (props) => {
     if (map) {
       markers.map((position, index) => {
         return new window.google.maps.Marker({
-          position: { lat: position.lat, lng: position.lng },
+          position,
           label: `${index + 1}`,
           map,
         });
