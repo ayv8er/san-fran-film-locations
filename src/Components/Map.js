@@ -17,9 +17,11 @@ const Map = (props) => {
 
   useEffect(() => {
     if (map) {
-      markers.map((position) => {
+      markers.map((position, index) => {
+        console.log(position);
         return new window.google.maps.Marker({
-          position: position,
+          position: { lat: position.lat, lng: position.lng },
+          label: `${index + 1}`,
           map,
         });
       });
