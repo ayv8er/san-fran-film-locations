@@ -10,20 +10,24 @@ import axios from "axios";
 import { Container } from "react-bootstrap";
 
 function App() {
-  const [locations, setLocations] = useState([]);
-  const [destinations, setDestinations] = useState([]);
-  const [originals, setOriginals] = useState([]);
-  const [searchTitle, setSearchTitle] = useState("");
-
-  const draggedFilmId = useRef(null);
+  const [map, setMap] = useState();
+  const [markers, setMarkers] = useState([]);
+  const [searchTitle, setSearchTitle] = useState(""); // for searchbar
+  const [locations, setLocations] = useState([]); // for main list rendering
+  const [originals, setOriginals] = useState([]); // copy main once on initial render
+  const filmIndex = useRef(null);
 
   useEffect(() => {
     axios
       .get("https://data.sfgov.org/resource/yitu-d5am.json")
       .then((res) => {
         res.data.map((object, index) => {
-          object.original_index = index;
-          return object;
+          if (!object.locations) {
+            return null;
+          } else {
+            object.original_index = index;
+            return object;
+          }
         });
         setLocations(res.data);
         setOriginals(res.data);
@@ -33,22 +37,22 @@ function App() {
       });
   }, []);
 
-  const removeObject = (array, index) => {
-    const newArray = array;
+  const removeFilm = (array, index) => {
     if (index === 0) {
-      newArray.shift();
+      array.shift();
+      setLocations(array);
     } else if (index === array.length - 1) {
-      newArray.pop();
+      array.pop();
+      setLocations(array);
     } else {
       const firstHalf = array.slice(0, index);
       const secondHalf = array.slice(index + 1);
-      return [...firstHalf, ...secondHalf];
+      setLocations([...firstHalf, ...secondHalf]);
     }
-    return newArray;
   };
 
   const dragStart = (event, id) => {
-    draggedFilmId.current = id;
+    filmIndex.current = id;
   };
 
   const dragOver = (event) => {
@@ -58,15 +62,38 @@ function App() {
   };
 
   const drop = (event) => {
-    setDestinations([...destinations, locations[draggedFilmId.current]]);
-    const updatedLocations = removeObject(locations, draggedFilmId.current);
-    setLocations(updatedLocations);
+    getLatLng(locations[filmIndex.current]);
+    removeFilm(locations, filmIndex.current);
+    filmIndex.current = null;
+  };
+
+  const getLatLng = (locationObject) => {
+    new window.google.maps.Geocoder()
+      .geocode({ address: locationObject.locations })
+      .then((res) => {
+        console.log(res.results);
+        const lat = res.results[0].geometry.location.lat();
+        const lng = res.results[0].geometry.location.lng();
+        setMarkers([...markers, { lat, lng }]);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(
+          "Sorry, we're currently unable to locate this place of interest."
+        );
+      });
   };
 
   return (
     <Container fluid>
       <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-        <Map dragOver={dragOver} drop={drop} destinations={destinations} />
+        <Map
+          dragOver={dragOver}
+          drop={drop}
+          map={map}
+          setMap={setMap}
+          markers={markers}
+        />
       </Wrapper>
       <Searchbar
         searchTitle={searchTitle}
