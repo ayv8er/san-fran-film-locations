@@ -2,17 +2,11 @@ import { NavLink } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
 const Searchbar = (props) => {
-  const { searchTitle, setSearchTitle, googleMarkers, setMarkers } = props;
+  const { searchTitle, setSearchTitle } = props;
 
   const handleChange = (event) => {
     event.preventDefault();
     setSearchTitle(event.target.value);
-  };
-
-  const handleClick = (event) => {
-    event.preventDefault();
-    googleMarkers.map((m) => m.setMap(null));
-    setMarkers([]);
   };
 
   return (
@@ -46,14 +40,6 @@ const Searchbar = (props) => {
           to="/itinerary"
         >
           Itinerary
-        </Button>
-        <Button
-          style={{ marginLeft: "1%" }}
-          variant="danger"
-          size="sm"
-          onClick={handleClick}
-        >
-          Remove Markers
         </Button>
       </div>
     </div>

@@ -6,6 +6,8 @@
 
 #### react-dom v18.0.0 (Behaving as v17)
 
+#### react-router-dom v6.3.0
+
 #### react-scripts v5.0.0
 
 #### @googlemaps/react-wrapper v1.1.29
@@ -22,7 +24,7 @@ This application displays a Google map, a table filled with information for loca
 
 ## Structure
 
-App.js itself renders three components; the Map within a Wrapper, a Searchbar with a text input, and a Locations component. The Locations component renders a Film component for each film location object held in the locations state variable.
+App.js itself renders two constant components with two more components wrapped in Routes; the Map within a Wrapper, a Searchbar with a text input and two buttons, and the Routes contains the Locations component or the Itinerary component, depending on the URL path. The Locations component renders a Film component for each film location object held in the locations state variable. The Itinerary component renders a Destination component for each marker location held in the markers state variable.
 
 ## App.js
 
@@ -36,6 +38,8 @@ The Searchbar component is passed both searchTitle state variables. This control
 
 The Locations component is passed three functions regarding the drag and drop feature, the locations state variable and the searchTitle variable which is controlled by the Searchbar component.
 
+The Itinerary component is only passed the markers state variable
+
 ## Map.js
 
 Inside the Map component there are two useEffects; one for the initial Google maps instantiation and the other to re-render map markers when the markers array is re-set to state.
@@ -45,6 +49,8 @@ The div being instantiated from the Google maps class is rendered along with ano
 ## Searchbar.js
 
 As stated earlier, this component is simply an input element controlled by the searchTitle state variable. An event listener handles any change in what is being typed in there to re-set the searchTitle.
+
+The Searchbar component also renders two buttons that routes a path to the URL. Another component is warranted for this div.
 
 ## Locations.js
 
@@ -56,9 +62,21 @@ A table and the header is being rendered here. The body of this table takes the 
 
 This component represents a single object from the locations filtered state variable. This is a draggable table row and houses the start of the drag feature.
 
+## Itinerary.js
+
+This component simply creates a table and iterates over the markers state variable to feed into the Destination component.
+
+## Destination.js
+
+This component represents a single object from the markers state variable.
+
 ## My Shortcomings
 
-I was not able to remove map markers after placing them on the map. The Google API also isn't able to render certain location objects despite checking for truthiness and/or ambiguous strings. A bonafide itinerary page which lists the destinations was initially rendered, but made the app aesthetically unpleasing. It can be added back easily, but I will recreate it so it doesn't look so unappealing. React Bootstrap wasn't utilized as much as I would have liked to as I focused more on functionality over design.
+I was not able to remove map markers after placing them on the map. In my local repo, the current method is buggy.
+
+The Google API also isn't able to render certain location objects despite checking for truthiness and/or ambiguous strings.
+
+React Bootstrap wasn't utilized as much as I would have liked to as I focused more on functionality over design.
 
 ## My Takeaway
 

@@ -1,15 +1,7 @@
 import { useEffect, useRef } from "react";
 
 const Map = (props) => {
-  const {
-    dragOver,
-    drop,
-    map,
-    setMap,
-    markers,
-    googleMarkers,
-    setGoogleMarkers,
-  } = props;
+  const { dragOver, drop, map, setMap, markers } = props;
   const ref = useRef(null);
 
   useEffect(() => {
@@ -26,22 +18,14 @@ const Map = (props) => {
   useEffect(() => {
     if (map) {
       markers.map((position, index) => {
-        const mark = new window.google.maps.Marker({
+        return new window.google.maps.Marker({
           position,
           label: `${index + 1}`,
           map,
         });
-        setGoogleMarkers([...googleMarkers, mark]);
-        return mark;
       });
     }
   }, [map, markers]);
-
-  useEffect(() => {
-    if (markers.length === 0 && googleMarkers.length > 0) {
-      setGoogleMarkers([]);
-    }
-  }, [markers, googleMarkers]);
 
   return (
     <div

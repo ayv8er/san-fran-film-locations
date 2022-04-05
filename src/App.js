@@ -14,7 +14,6 @@ import { Container } from "react-bootstrap";
 function App() {
   const [map, setMap] = useState();
   const [markers, setMarkers] = useState([]);
-  const [googleMarkers, setGoogleMarkers] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
   const [locations, setLocations] = useState([]);
   const filmIndex = useRef(null);
@@ -125,15 +124,11 @@ function App() {
           map={map}
           setMap={setMap}
           markers={markers}
-          googleMarkers={googleMarkers}
-          setGoogleMarkers={setGoogleMarkers}
         />
       </Wrapper>
 
       <Searchbar
         setMarkers={setMarkers}
-        googleMarkers={googleMarkers}
-        setGoogleMarkers={setGoogleMarkers}
         searchTitle={searchTitle}
         setSearchTitle={setSearchTitle}
       />
