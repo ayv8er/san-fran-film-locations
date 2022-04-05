@@ -21,7 +21,6 @@ function App() {
       .get("https://data.sfgov.org/resource/yitu-d5am.json")
       .then((res) => {
         const data = res.data.filter((object) => !!object.locations);
-        console.log(data);
         setLocations(data);
       })
       .catch((error) => {
@@ -43,10 +42,28 @@ function App() {
     }
   };
 
+  const findFilm = (filterTitle, filterLocation) => {
+    locations.map((loc, index) => {
+      if (filterTitle === loc.title && filterLocation === loc.locations) {
+        filmIndex.current = index;
+      }
+    });
+  };
+
+  const replaceAmpersands = (phrase) => {
+    const words = phrase.split(" ");
+    if (words.length === 1) {
+      return phrase;
+    }
+    const indexofAmpersand = words.indexOf("&amp;");
+    words[indexofAmpersand] = "&";
+    return words.join(" ");
+  };
+
   const dragStart = (event, id) => {
-    filmIndex.current = id;
-    console.log(event);
-    console.log(event.target);
+    const titleHTML = replaceAmpersands(event.target.cells[0].innerHTML);
+    const locationHTML = replaceAmpersands(event.target.cells[1].innerHTML);
+    findFilm(titleHTML, locationHTML);
   };
 
   const dragOver = (event) => {
@@ -56,16 +73,23 @@ function App() {
   };
 
   const drop = (event) => {
+    if (locations[filmIndex.current] === undefined) {
+      alert("Sorry, we're currently unable to locate this place of interest.");
+      return;
+    }
     getLatLng(locations[filmIndex.current]);
     removeFilm(locations, filmIndex.current);
     filmIndex.current = null;
   };
 
   const getLatLng = (locationObject) => {
+    if (locationObject === undefined) {
+      alert("Sorry, we're currently unable to locate this place of interest.");
+      return;
+    }
     new window.google.maps.Geocoder()
       .geocode({ address: locationObject.locations })
       .then((res) => {
-        console.log(res.results);
         const lat = res.results[0].geometry.location.lat();
         const lng = res.results[0].geometry.location.lng();
         setMarkers([...markers, { lat, lng }]);
