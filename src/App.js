@@ -12,25 +12,17 @@ import { Container } from "react-bootstrap";
 function App() {
   const [map, setMap] = useState();
   const [markers, setMarkers] = useState([]);
-  const [searchTitle, setSearchTitle] = useState(""); // for searchbar
-  const [locations, setLocations] = useState([]); // for main list rendering
-  const [originals, setOriginals] = useState([]); // copy main once on initial render
+  const [searchTitle, setSearchTitle] = useState("");
+  const [locations, setLocations] = useState([]);
   const filmIndex = useRef(null);
 
   useEffect(() => {
     axios
       .get("https://data.sfgov.org/resource/yitu-d5am.json")
       .then((res) => {
-        res.data.map((object, index) => {
-          if (!object.locations) {
-            return null;
-          } else {
-            object.original_index = index;
-            return object;
-          }
-        });
-        setLocations(res.data);
-        setOriginals(res.data);
+        const data = res.data.filter((object) => !!object.locations);
+        console.log(data);
+        setLocations(data);
       })
       .catch((error) => {
         console.log(error);
@@ -53,6 +45,8 @@ function App() {
 
   const dragStart = (event, id) => {
     filmIndex.current = id;
+    console.log(event);
+    console.log(event.target);
   };
 
   const dragOver = (event) => {
@@ -95,16 +89,13 @@ function App() {
           markers={markers}
         />
       </Wrapper>
-      <Searchbar
-        searchTitle={searchTitle}
-        setSearchTitle={setSearchTitle}
-        locations={locations}
-      />
+      <Searchbar searchTitle={searchTitle} setSearchTitle={setSearchTitle} />
       <Locations
         dragStart={dragStart}
         dragOver={dragOver}
         drop={drop}
         locations={locations}
+        searchTitle={searchTitle}
       />
     </Container>
   );

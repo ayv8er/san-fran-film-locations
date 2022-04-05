@@ -1,7 +1,18 @@
 import Film from "./Film";
 
 const Locations = (props) => {
-  const { dragStart, dragOver, drop, locations } = props;
+  const { dragStart, dragOver, drop, locations, searchTitle } = props;
+
+  const filteredList = () => {
+    let searchPhrase = searchTitle.trim().toLowerCase();
+    if (searchPhrase === "") {
+      return locations;
+    }
+    return locations.filter((location) =>
+      location.title.toLowerCase().includes(searchPhrase)
+    );
+  };
+
   return (
     <div
       className="locations"
@@ -33,7 +44,7 @@ const Locations = (props) => {
           </tr>
         </thead>
         <tbody className="locations">
-          {locations.map((loc, index) => {
+          {filteredList().map((loc, index) => {
             return (
               <Film dragStart={dragStart} key={index} index={index} loc={loc} />
             );
