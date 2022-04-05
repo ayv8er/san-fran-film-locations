@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 
 const Map = (props) => {
-  const { destinations } = props;
+  const { dragOver, drop, destinations } = props;
   const [map, setMap] = useState();
   const [markers, setMarkers] = useState([]);
   const ref = useRef(null);
@@ -48,7 +48,20 @@ const Map = (props) => {
     }
   }, [map, markers]);
 
-  return <div ref={ref} id="map" style={style} />;
+  return (
+    <div
+      style={style}
+      className="itinerary"
+      onDragOver={(event) => {
+        dragOver(event);
+      }}
+      onDrop={(event) => {
+        drop(event);
+      }}
+    >
+      <div className="itinerary" ref={ref} id="map" style={style} />;
+    </div>
+  );
 };
 
 export default Map;
