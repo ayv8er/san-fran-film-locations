@@ -15,12 +15,7 @@ const Locations = (props) => {
 
   return (
     <div
-      style={{
-        marginTop: "1%",
-        border: "1px solid black",
-        overflowY: "scroll",
-        height: "39vh",
-      }}
+      style={{ overflowY: "scroll", height: "40vh" }}
       className="locations"
       onDragOver={(event) => {
         dragOver(event);
