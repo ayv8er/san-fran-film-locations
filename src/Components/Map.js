@@ -36,7 +36,7 @@ const Map = (props) => {
         drop(event);
       }}
     >
-      <div ref={ref} style={{ height: "50vh" }} />
+      <div ref={ref} style={{ height: "50vh" }} />;
     </div>
   );
 };

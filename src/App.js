@@ -1,11 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { Routes, Route } from "react-router-dom";
 import { Wrapper } from "@googlemaps/react-wrapper";
 
 import Map from "./Components/Map";
 import Searchbar from "./Components/Searchbar";
 import Locations from "./Components/Locations";
-import Itinerary from "./Components/Itinerary";
 
 import { fetchFilmData } from "./utils/getFilmData";
 
@@ -48,7 +46,6 @@ function App() {
       if (filterTitle === loc.title && filterLocation === loc.locations) {
         filmIndex.current = index;
       }
-      return null;
     });
   };
 
@@ -94,17 +91,7 @@ function App() {
       .then((res) => {
         const lat = res.results[0].geometry.location.lat();
         const lng = res.results[0].geometry.location.lng();
-        setMarkers([
-          ...markers,
-          {
-            title: locationObject.title,
-            locations: locationObject.locations,
-            director: locationObject.director,
-            release_year: locationObject.release_year,
-            lat,
-            lng,
-          },
-        ]);
+        setMarkers([...markers, { lat, lng }]);
       })
       .catch((error) => {
         console.log(error);
@@ -125,28 +112,14 @@ function App() {
           markers={markers}
         />
       </Wrapper>
-
-      <Searchbar
-        setMarkers={setMarkers}
+      <Searchbar searchTitle={searchTitle} setSearchTitle={setSearchTitle} />
+      <Locations
+        dragStart={dragStart}
+        dragOver={dragOver}
+        drop={drop}
+        locations={locations}
         searchTitle={searchTitle}
-        setSearchTitle={setSearchTitle}
       />
-
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Locations
-              dragStart={dragStart}
-              dragOver={dragOver}
-              drop={drop}
-              locations={locations}
-              searchTitle={searchTitle}
-            />
-          }
-        />
-        <Route path="/itinerary" element={<Itinerary markers={markers} />} />
-      </Routes>
     </Container>
   );
 }
