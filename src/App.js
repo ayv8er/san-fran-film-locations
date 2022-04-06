@@ -7,7 +7,7 @@ import Searchbar from "./Components/Searchbar";
 import Locations from "./Components/Locations";
 import Itinerary from "./Components/Itinerary";
 
-import axios from "axios";
+import { fetchFilmData } from "./utils/getFilmData";
 
 import { Container } from "react-bootstrap";
 
@@ -19,15 +19,9 @@ function App() {
   const filmIndex = useRef(null);
 
   useEffect(() => {
-    axios
-      .get("https://data.sfgov.org/resource/yitu-d5am.json")
-      .then((res) => {
-        const data = res.data.filter((object) => !!object.locations);
-        setLocations(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    (async function () {
+      setLocations(await fetchFilmData());
+    })();
   }, []);
 
   const removeFilm = (array, index) => {
