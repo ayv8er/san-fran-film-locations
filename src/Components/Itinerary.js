@@ -8,12 +8,14 @@ const Itinerary = (props) => {
       {markers.length === 0 ? (
         <div
           style={{
+            fontWeight: "bold",
+            marginTop: "1%",
             border: "1px solid black",
-            fontSize: "2rem",
+            fontSize: "1.5rem",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "40vh",
+            height: "39vh",
           }}
         >
           Drag films from "Film Locations" into the map to display here!
@@ -21,9 +23,10 @@ const Itinerary = (props) => {
       ) : (
         <div
           style={{
+            marginTop: "1%",
             border: "1px solid black",
             overflowY: "scroll",
-            height: "40vh",
+            height: "39vh",
           }}
           className="locations"
         >

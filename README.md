@@ -72,12 +72,8 @@ This component represents a single object from the markers state variable.
 
 ## My Shortcomings
 
-I was not able to remove map markers after placing them on the map. In my local repo, the current method is buggy.
+I was not able to remove map markers after placing them on the map. In my local repo, the current method is buggy. I will fix this.
 
-The Google API also isn't able to render certain location objects despite checking for truthiness and/or ambiguous strings.
+The Geocoder doesn't return anything for certain addresses despite sanitizing the address, I will have to troubleshoot this.
 
 React Bootstrap wasn't utilized as much as I would have liked to as I focused more on functionality over design.
-
-## My Takeaway
-
-I can see why Magic had me work on this prior to our next interview. Google's SDK has given me a good look into what our product can do, the kinds of issues our customers may face, and how I interacted with documentation as a user.

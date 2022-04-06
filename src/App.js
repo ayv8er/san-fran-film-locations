@@ -4,12 +4,13 @@ import { Wrapper } from "@googlemaps/react-wrapper";
 
 import Map from "./Components/Map";
 import Searchbar from "./Components/Searchbar";
+import Buttonbar from "./Components/Buttonbar";
 import Locations from "./Components/Locations";
 import Itinerary from "./Components/Itinerary";
 
-import axios from "axios";
+import { fetchFilmData } from "./utils/getFilmData";
 
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 function App() {
   const [map, setMap] = useState();
@@ -19,15 +20,9 @@ function App() {
   const filmIndex = useRef(null);
 
   useEffect(() => {
-    axios
-      .get("https://data.sfgov.org/resource/yitu-d5am.json")
-      .then((res) => {
-        const data = res.data.filter((object) => !!object.locations);
-        setLocations(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    (async function () {
+      setLocations(await fetchFilmData());
+    })();
   }, []);
 
   const removeFilm = (array, index) => {
@@ -127,11 +122,18 @@ function App() {
         />
       </Wrapper>
 
-      <Searchbar
-        setMarkers={setMarkers}
-        searchTitle={searchTitle}
-        setSearchTitle={setSearchTitle}
-      />
+      <Row>
+        <Col xs={12} sm={12} md={6}>
+          <Searchbar
+            setMarkers={setMarkers}
+            searchTitle={searchTitle}
+            setSearchTitle={setSearchTitle}
+          />
+        </Col>
+        <Col xs={12} sm={12} md={6}>
+          <Buttonbar />
+        </Col>
+      </Row>
 
       <Routes>
         <Route
