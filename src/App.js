@@ -20,9 +20,14 @@ function App() {
   const filmIndex = useRef(null);
 
   useEffect(() => {
-    (async function () {
-      setLocations(await fetchFilmData());
-    })();
+    const getData = async () => {
+      const response = await fetchFilmData();
+      setLocations(response);
+    };
+    getData();
+    // (async function () {
+    //   setLocations(await fetchFilmData());
+    // })();
   }, []);
 
   const removeFilm = (array, index) => {
