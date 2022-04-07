@@ -1,7 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Map = (props) => {
-  const { dragOver, drop, map, setMap, markers } = props;
+  const { dragOver, drop, markers } = props;
+  const [map, setMap] = useState();
   const ref = useRef(null);
 
   useEffect(() => {

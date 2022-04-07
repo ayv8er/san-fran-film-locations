@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Wrapper } from "@googlemaps/react-wrapper";
 
@@ -11,11 +11,10 @@ import { fetchFilmData } from "./utils/getFilmData";
 import { Container } from "react-bootstrap";
 
 function App() {
-  const [map, setMap] = useState();
+  const [locations, setLocations] = useState([]);
   const [markers, setMarkers] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
-  const [locations, setLocations] = useState([]);
-  const filmIndex = useRef(null);
+  let filmIndex;
 
   useEffect(() => {
     (async function () {
@@ -40,7 +39,7 @@ function App() {
   const findFilm = (filterTitle, filterLocation) => {
     locations.map((loc, index) => {
       if (filterTitle === loc.title && filterLocation === loc.locations) {
-        filmIndex.current = index;
+        filmIndex = index;
       }
       return null;
     });
@@ -56,7 +55,7 @@ function App() {
     return words.join(" ");
   };
 
-  const dragStart = (event, id) => {
+  const dragStart = (event) => {
     const titleHTML = replaceAmpersands(event.target.cells[0].innerHTML);
     const locationHTML = replaceAmpersands(event.target.cells[1].innerHTML);
     findFilm(titleHTML, locationHTML);
@@ -69,32 +68,29 @@ function App() {
   };
 
   const drop = (event) => {
-    if (locations[filmIndex.current] === undefined) {
-      alert("Sorry, we're currently unable to locate this place of interest.");
-      return;
-    }
-    getLatLng(locations[filmIndex.current]);
-    removeFilm(locations, filmIndex.current);
-    filmIndex.current = null;
+    getLatLng(locations[filmIndex]);
+    removeFilm(locations, filmIndex);
+    filmIndex = null;
   };
 
   const getLatLng = (locationObject) => {
-    if (locationObject === undefined) {
-      alert("Sorry, we're currently unable to locate this place of interest.");
-      return;
-    }
     new window.google.maps.Geocoder()
-      .geocode({ address: locationObject.locations })
+      .geocode({
+        address: locationObject.locations,
+        bounds: {
+          west: -123,
+          east: -122,
+          south: 37,
+          north: 38,
+        },
+      })
       .then((res) => {
         const lat = res.results[0].geometry.location.lat();
         const lng = res.results[0].geometry.location.lng();
         setMarkers([
           ...markers,
           {
-            title: locationObject.title,
-            locations: locationObject.locations,
-            director: locationObject.director,
-            release_year: locationObject.release_year,
+            ...locationObject,
             lat,
             lng,
           },
@@ -103,7 +99,7 @@ function App() {
       .catch((error) => {
         console.log(error);
         alert(
-          "Sorry, we're currently unable to locate this place of interest."
+          "Sorry, we can't find that location so we'll remove it from the list!"
         );
       });
   };
@@ -111,13 +107,7 @@ function App() {
   return (
     <Container fluid>
       <Wrapper apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
-        <Map
-          dragOver={dragOver}
-          drop={drop}
-          map={map}
-          setMap={setMap}
-          markers={markers}
-        />
+        <Map dragOver={dragOver} drop={drop} markers={markers} />
       </Wrapper>
 
       <Routes>

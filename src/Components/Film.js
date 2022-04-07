@@ -1,12 +1,12 @@
 const Film = (props) => {
-  const { dragStart, loc, index } = props;
+  const { dragStart, loc } = props;
   return (
     <tr
       style={{ fontSize: "1rem" }}
       className="locations"
       draggable
       onDragStart={(event) => {
-        dragStart(event, index);
+        dragStart(event);
       }}
     >
       <td className="locations" style={{ height: "auto" }}>
