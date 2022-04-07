@@ -3,14 +3,12 @@ import { Routes, Route } from "react-router-dom";
 import { Wrapper } from "@googlemaps/react-wrapper";
 
 import Map from "./Components/Map";
-import Searchbar from "./Components/Searchbar";
-import Buttonbar from "./Components/Buttonbar";
 import Locations from "./Components/Locations";
 import Itinerary from "./Components/Itinerary";
 
 import { fetchFilmData } from "./utils/getFilmData";
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 function App() {
   const [map, setMap] = useState();
@@ -122,19 +120,6 @@ function App() {
         />
       </Wrapper>
 
-      <Row>
-        <Col xs={12} sm={12} md={6}>
-          <Searchbar
-            setMarkers={setMarkers}
-            searchTitle={searchTitle}
-            setSearchTitle={setSearchTitle}
-          />
-        </Col>
-        <Col xs={12} sm={12} md={6}>
-          <Buttonbar />
-        </Col>
-      </Row>
-
       <Routes>
         <Route
           path="/"
@@ -145,6 +130,8 @@ function App() {
               drop={drop}
               locations={locations}
               searchTitle={searchTitle}
+              setMarkers={setMarkers}
+              setSearchTitle={setSearchTitle}
             />
           }
         />
