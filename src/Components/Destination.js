@@ -3,7 +3,6 @@ const Destination = (props) => {
 
   return (
     <tr style={{ fontSize: "1rem" }} className="locations">
-      <td className="locations" style={{ height: "auto" }}></td>
       <td className="locations" style={{ height: "auto" }}>
         {index + 1}
       </td>
